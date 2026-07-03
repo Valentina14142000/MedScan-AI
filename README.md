@@ -30,4 +30,4 @@ MedScan AI is a React-based diagnostic platform prototype for exploring AI-assis
 The diagnosis engine in this prototype uses deterministic simulated outputs for demonstration purposes. Supabase is used to persist analysis records and power the analytics experience.
 
 
-### Created by Valentina Kiyungi
+#### Created by Valentina Kiyungi
