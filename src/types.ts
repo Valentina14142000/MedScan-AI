@@ -1,60 +1,22 @@
-export type ModuleId = 'xray' | 'mri' | 'derm';
+export type ModuleId = 'xray' | 'mri' | 'skin';
+export type FollowUp = 'routine' | 'soon' | 'urgent';
 
-export interface SampleCase {
-  id: string;
-  label: string;
-  description: string;
-  imageUrl: string;
-  groundTruth: string;
-  difficulty: 'Routine' | 'Borderline' | 'Complex';
+export interface Analysis {
+  image_type_match: boolean;
+  quality: 'good' | 'limited' | 'poor';
+  quality_note: string;
+  observations: string[];
+  considerations: string[];
+  follow_up: FollowUp;
+  follow_up_note: string;
+  limitations: string;
 }
 
-export interface DiagnosisResult {
-  primaryClass: string;
-  confidence: number;
-  classProbabilities: { label: string; probability: number }[];
-  metrics: {
-    label: string;
-    value: string;
-    detail: string;
-  }[];
-  explainability: string[];
-  heatmapRegions: {
-    region: string;
-    intensity: number;
-    description: string;
-  }[];
-  inferenceTimeMs: number;
-}
-
-export interface ModuleConfig {
-  id: ModuleId;
-  name: string;
-  shortName: string;
-  modality: string;
-  icon: string;
-  accentColor: string;
-  classes: string[];
-  samples: SampleCase[];
-  modelArchitecture: CodeBlock[];
-  gradCamScript: CodeBlock[];
-  defaultResult: DiagnosisResult;
-}
-
-export interface CodeBlock {
-  filename: string;
-  language: string;
-  code: string;
-}
-
-export interface ImageAdjustments {
-  brightness: number;
-  contrast: number;
-  sharpen: number;
-}
-
-export interface AnalysisState {
-  status: 'idle' | 'analyzing' | 'complete';
-  progress: number;
-  stage: string;
+export interface HistoryItem {
+  id: number;
+  module: ModuleId;
+  date: string;
+  quality: string;
+  follow_up: FollowUp;
+  key: string;
 }

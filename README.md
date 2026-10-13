@@ -1,6 +1,4 @@
-
 # MedScan AI
-
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -25,7 +23,7 @@ Earlier versions of this repo simulated diagnoses from random numbers. That has 
 
 ```bash
 npm install
-cp .env.example .env     # put your free key from https://aistudio.google.com/apikey in .env
+cp .env.example .env     # then put your free key from https://aistudio.google.com/apikey in .env
 npm run dev              # http://localhost:5173
 ```
 
@@ -33,24 +31,26 @@ npm run dev              # http://localhost:5173
 
 Other scripts: `npm run typecheck`, `npm run build`, `npm run lint`.
 
-## Deployment
+## Deploy (Vercel, free)
 
-Deployed on Vercel
+1. Push this repo to GitHub, then **Add New → Project** on vercel.com and import it (Vite is auto-detected).
+2. Add the environment variable `GEMINI_API_KEY` (mark it Sensitive), then deploy.
+3. If the URL asks visitors to log in, turn off **Settings → Deployment Protection → Vercel Authentication** so anyone can open it.
 
 ## Notes and limits
 
-- Free Gemini keys have rate limits and, on the free tier, Google may use submitted content to improve its products. Use only public or de-identified images.
+- Free Gemini keys have rate limits and, on the free tier, Google may use submitted content to improve its products. Another reason to use only public or de-identified images.
 - The in-memory rate limiter resets on cold starts; it is a courtesy guard, not security.
-- The model can be overridden with `GEMINI_MODEL`.
+- Model name can be overridden with `GEMINI_MODEL`.
 
 ## Project layout
 
-api/analyze.ts Vercel function (POST /api/analyze)
-api/_lib/analyze.ts Validation, prompt, Gemini call with retry/fallback, output normalization
-src/ React UI (modules, workspace, report, history)
-vite.config.ts Dev middleware for /api/analyze
-
+```
+api/analyze.ts        Vercel function (POST /api/analyze)
+api/_lib/analyze.ts   Validation, prompt, Gemini call with retry/fallback, output normalization
+src/                  React UI (modules, workspace, report, history)
+vite.config.ts        Dev middleware for /api/analyze
+```
 
 ## License
-
 MIT
