@@ -1,13 +1,29 @@
-# MedScan AI
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Gemini](https://img.shields.io/badge/Google-Gemini-4285F4?logo=google&logoColor=white)](https://ai.google.dev/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<div align="center">
 
-An **educational** image-review tool. Upload a chest X-ray, brain MRI slice or skin photo and get a structured description of what is visible, an image-quality check, general points a clinician might consider, and a routine / soon / urgent follow-up flag.
+# 🩺 MedScan AI
 
-> **Not a medical device.** MedScan AI does not diagnose or treat anything and must not guide medical decisions. Upload only public or fully de-identified images.
+**An Intelligent, Privacy-First Educational Medical Image Review Tool**
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+</div>
+
+---
+
+> ⚠️ **Important Disclaimer**
+> **MedScan AI is NOT a medical device.** It does not diagnose, treat, prevent, or cure any condition, and must **never** be used to guide clinical decisions or emergency medical care. Results can be wrong. Upload only public or fully de-identified educational images. In case of a health worry, see a clinician; in an emergency, contact your local emergency services immediately.
+
+---
+
+## 📸 Overview
+
+![MedScan AI Application Interface](./docs/preview.png)
+
+**MedScan AI** is an open-source educational platform designed to demonstrate the application of multimodal Large Language Models (LLMs) to medical imaging review. Users can upload a **Chest X-Ray**, **Brain MRI slice**, or **Dermatology photo** to receive structured visual observations, image quality evaluations, clinical consideration points, and routine follow-up triage indicators.
 
 ## What it really does
 
@@ -17,40 +33,29 @@ An **educational** image-review tool. Upload a chest X-ray, brain MRI slice or s
 - Keeps case history and analytics **only in your browser** (`localStorage`). Images are never stored.
 - Exports a text report and a CSV of your history.
 
-Earlier versions of this repo simulated diagnoses from random numbers. That has been removed.
+  ---
 
-## Run locally
+## 🏗️ Architecture & Tech Stack
 
-```bash
-npm install
-cp .env.example .env     # then put your free key from https://aistudio.google.com/apikey in .env
-npm run dev              # http://localhost:5173
-```
+* **Frontend**: React 18, TypeScript, Tailwind CSS, Lucide Icons
+* **Build System**: Vite with built-in development API middleware
+* **AI Engine**: Google Gemini Vision Model (`gemini-1.5-flash` or custom override)
+* **Backend Functions**: Vercel Serverless Functions (`/api/analyze`)
 
-`npm run dev` serves `/api/analyze` through a Vite middleware that uses the same code as production.
+---
 
-Other scripts: `npm run typecheck`, `npm run build`, `npm run lint`.
+## 📁 Repository Structure
 
-## Deploy (Vercel, free)
+├── api/│   ├── analyze.ts          # Vercel Serverless Function entry point (POST /api/analyze)│   └── _lib/│       └── analyze.ts      # Validation, prompt, Gemini API call with retry/fallback, & output normalization├── src/│   ├── components/         # Workspace, report viewer, analytics, & code preview UI│   ├── data/               # Diagnostic module configurations & metadata│   ├── lib/                # API client & local image processing utilities│   ├── App.tsx             # Main application controller│   └── main.tsx            # React application entry├── docs/                   # Documentation assets (e.g., preview.png)└── vite.config.ts          # Vite build config & serverless dev middleware
+---
 
-1. Push this repo to GitHub, then **Add New → Project** on vercel.com and import it (Vite is auto-detected).
-2. Add the environment variable `GEMINI_API_KEY` (mark it Sensitive), then deploy.
-3. If the URL asks visitors to log in, turn off **Settings → Deployment Protection → Vercel Authentication** so anyone can open it.
+## 🚀 Quick Start (Local Development)
 
-## Notes and limits
+### Prerequisites
 
-- Free Gemini keys have rate limits and, on the free tier, Google may use submitted content to improve its products. Another reason to use only public or de-identified images.
-- The in-memory rate limiter resets on cold starts; it is a courtesy guard, not security.
-- Model name can be overridden with `GEMINI_MODEL`.
+* **Node.js**: `v18.0.0` or higher
+* **npm**: `v9.0.0` or higher
+* **Google Gemini API Key**: Obtain a free key from [Google AI Studio](https://aistudio.google.com/apikey).
 
-## Project layout
+### Installation
 
-```
-api/analyze.ts        Vercel function (POST /api/analyze)
-api/_lib/analyze.ts   Validation, prompt, Gemini call with retry/fallback, output normalization
-src/                  React UI (modules, workspace, report, history)
-vite.config.ts        Dev middleware for /api/analyze
-```
-
-## License
-MIT
