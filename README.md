@@ -19,7 +19,7 @@
 
 ---
 
-## 📸 Overview
+##  Overview
 
 ![MedScan AI Application Interface](./docs/preview.png)
 
@@ -35,7 +35,7 @@
 
   ---
 
-## 🏗️ Architecture & Tech Stack
+##  Architecture & Tech Stack
 
 * **Frontend**: React 18, TypeScript, Tailwind CSS, Lucide Icons
 * **Build System**: Vite with built-in development API middleware
