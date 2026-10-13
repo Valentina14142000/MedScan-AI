@@ -33,7 +33,7 @@ npm run dev              # http://localhost:5173
 
 Other scripts: `npm run typecheck`, `npm run build`, `npm run lint`.
 
-## Deploy 
+## Deployment
 
 Deployed on Vercel
 
