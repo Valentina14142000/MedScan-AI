@@ -44,18 +44,5 @@
 
 ---
 
-## 📁 Repository Structure
 
-├── api/│   ├── analyze.ts          # Vercel Serverless Function entry point (POST /api/analyze)│   └── _lib/│       └── analyze.ts      # Validation, prompt, Gemini API call with retry/fallback, & output normalization├── src/│   ├── components/         # Workspace, report viewer, analytics, & code preview UI│   ├── data/               # Diagnostic module configurations & metadata│   ├── lib/                # API client & local image processing utilities│   ├── App.tsx             # Main application controller│   └── main.tsx            # React application entry├── docs/                   # Documentation assets (e.g., preview.png)└── vite.config.ts          # Vite build config & serverless dev middleware
----
-
-## 🚀 Quick Start (Local Development)
-
-### Prerequisites
-
-* **Node.js**: `v18.0.0` or higher
-* **npm**: `v9.0.0` or higher
-* **Google Gemini API Key**: Obtain a free key from [Google AI Studio](https://aistudio.google.com/apikey).
-
-### Installation
 
