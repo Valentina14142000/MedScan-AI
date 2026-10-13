@@ -33,11 +33,9 @@ npm run dev              # http://localhost:5173
 
 Other scripts: `npm run typecheck`, `npm run build`, `npm run lint`.
 
-## Deploy (Vercel, free)
+## Deploy 
 
-1. Push this repo to GitHub, then **Add New → Project** on vercel.com and import it (Vite is auto-detected).
-2. Add the environment variable `GEMINI_API_KEY` (mark it Sensitive), then deploy.
-3. If the URL asks visitors to log in, turn off **Settings → Deployment Protection → Vercel Authentication**.
+Deployed on Vercel
 
 ## Notes and limits
 
