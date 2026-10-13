@@ -1,74 +1,58 @@
-# 🩺 MedScan AI
 
-[![React](https://img.shields.io/badge/React-18%2B-blue?style=flat&logo=react&logoColor=white)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-blue?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-Frontend_Tooling-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0%2B-38BDF8?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Supabase](https://img.shields.io/badge/Supabase-Database_%2B_Functions-3ECF8E?style=flat&logo=supabase&logoColor=white)](https://supabase.com/)
+# MedScan AI
+
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Gemini](https://img.shields.io/badge/Google-Gemini-4285F4?logo=google&logoColor=white)](https://ai.google.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**MedScan AI** is a professional, React-based diagnostic platform prototype designed for exploring AI-assisted medical imaging workflows. The app features a modern clinical dashboard with dedicated workspaces for multi-modality case reviews and cross-module diagnostic analytics.
+An **educational** image-review tool. Upload a chest X-ray, brain MRI slice or skin photo and get a structured description of what is visible, an image-quality check, general points a clinician might consider, and a routine / soon / urgent follow-up flag.
 
----
+> **Not a medical device.** MedScan AI does not diagnose or treat anything and must not guide medical decisions. Upload only public or fully de-identified images.
 
-## ✨ Features
+## What it really does
 
-* **Multi-Module Diagnostic Workspaces:**
-  * **Chest X-Ray Analysis:** Pulmonary screening and anomaly detection.
-  * **Brain MRI Analysis:** Neuroimaging evaluation and classification.
-  * **Dermatology Image Review:** Skin lesion assessment and classification.
-* **Simulated Diagnostic Output:**
-  * High-precision confidence scores and class probability breakdowns.
-  * Explainability insights and clinical-grade metrics.
-* **Clinical Analytics Dashboard:** Performance overviews, cross-module comparisons, and recent case tracking.
-* **Backend Persistence:** Fully integrated with Supabase for storing and retrieving secure analysis records.
+- Sends the image to a Google Gemini vision model through a small serverless function (`api/analyze.ts`). The API key stays on the server.
+- Checks that the image matches the selected modality; mismatches are rejected instead of "analyzed".
+- Never outputs a diagnosis, probabilities or confidence scores. Responses are validated and normalized server-side.
+- Keeps case history and analytics **only in your browser** (`localStorage`). Images are never stored.
+- Exports a text report and a CSV of your history.
 
----
+Earlier versions of this repo simulated diagnoses from random numbers. That has been removed.
 
-## 🛠️ Tech Stack
-
-* **Frontend Framework:** React, TypeScript, Vite
-* **Styling & UI:** Tailwind CSS, Lucide Icons
-* **Backend & Storage:** Supabase JavaScript Client & Edge Functions
-
----
-
-## 🚀 Quick Start
-
-### 1. Clone the Repository
+## Run locally
 
 ```bash
-git clone GitHub repo
-cd medscan-ai
-```
-
-### 2. Install Dependencies
-
-```Bash
 npm install
-# or
-yarn install
-# or
-pnpm install
+cp .env.example .env     # put your free key from https://aistudio.google.com/apikey in .env
+npm run dev              # http://localhost:5173
 ```
 
-### 3. Configure Environment Variables
+`npm run dev` serves `/api/analyze` through a Vite middleware that uses the same code as production.
 
-Create a .env file in the root directory and add your Supabase project keys:
+Other scripts: `npm run typecheck`, `npm run build`, `npm run lint`.
 
-```Code snippet
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
+## Deploy (Vercel, free)
 
-### 4. Run Development Server
+1. Push this repo to GitHub, then **Add New → Project** on vercel.com and import it (Vite is auto-detected).
+2. Add the environment variable `GEMINI_API_KEY` (mark it Sensitive), then deploy.
+3. If the URL asks visitors to log in, turn off **Settings → Deployment Protection → Vercel Authentication**.
 
-```Bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Notes and limits
 
-Open http://localhost:5173 in your browser to view the clinical dashboard.
+- Free Gemini keys have rate limits and, on the free tier, Google may use submitted content to improve its products. Use only public or de-identified images.
+- The in-memory rate limiter resets on cold starts; it is a courtesy guard, not security.
+- The model can be overridden with `GEMINI_MODEL`.
+
+## Project layout
+
+api/analyze.ts Vercel function (POST /api/analyze)
+api/_lib/analyze.ts Validation, prompt, Gemini call with retry/fallback, output normalization
+src/ React UI (modules, workspace, report, history)
+vite.config.ts Dev middleware for /api/analyze
+
+
+## License
+
+MIT
